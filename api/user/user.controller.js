@@ -1,6 +1,8 @@
 const {
     serviceAddUser, 
-    serviceGetUsers
+    serviceGetUsers,
+    serviceUpdateUser,
+    serviceDeleteUser
 } = require("./user.service")
     
 const { genSaltSync, hashSync, compareSync} = require("bcryptjs");
@@ -66,7 +68,7 @@ module.exports = {
             const hasilInput = req.body;
             const salt = genSaltSync(10);
             hasilInput.password = hashSync(hasilInput.password, salt);
-            serviceAddUser(hasilInput, (err, results)=>{
+            serviceUpdateUser(hasilInput, (err, results)=>{
             if(err){
                 console.log(err)
                 return
@@ -87,24 +89,23 @@ module.exports = {
     },
 
     controllerDeleteUser: (req, res) => {
-        const data = req.body
-        serviceDeleteUser(data, (err, results)=>{
+        const hasilInput = req.body.id
+        serviceDeleteUser(hasilInput,(err, results)=>{
             if(err){
                 console.log(err)
                 return
-            }
-            if(!results){
+            }if(!results){
                 return res.json({
-                    sucess:0,
-                    message: "Record not found"
+                    success: 0,
+                    message: "Record data not found",
                 })
-            }
-            else{
+            }else{
                 return res.json({
                     success: 1,
-                    message: "user delete sucessfully"
+                    message: "delete data successful",
+            del: results
                 })
-            }
+        }
         })
     },
     controllerLogin: (req, res) => {

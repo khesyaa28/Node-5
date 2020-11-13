@@ -3,16 +3,15 @@ const db = require("../../config/connection");
 module.exports = {
   serviceAddUser: (data, callBack) => {
     db.query(
-      `insert into regist(firstName, lastName, gender, email, password, number,id)
-                values (?,?,?,?,?,?,?)`,
+      `insert into regist(firstName, lastName, gender, email, password, number)
+                values (?,?,?,?,?,?)`,
       [
         data.first_name,
         data.last_name,
         data.gender,
         data.email,
         data.password,
-        data.number,
-        data.id
+        data.number
       ],
       (error, result) => {
         if (error) {
@@ -44,7 +43,7 @@ serviceGetUsers: callBack => {
           callBack(result);
           // console.log(result)
         } else {
-          db.query(`delete from registration where id=?`, [data]);
+          db.query(`delete from regist where id=?`, [data]);
           // console.log(results)
           return callBack(null, result[0]);
         }
